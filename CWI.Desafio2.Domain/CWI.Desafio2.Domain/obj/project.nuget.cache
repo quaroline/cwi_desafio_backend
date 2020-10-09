@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "BTxrMshUusTtdvrMsYxLGndO3grTmpNyKdKy/N/33EtQhmrXD5w7EwobAx6vJ6pvnz+wGjDJmzuZCV5yyyaG1w==",
+  "success": true,
+  "projectFilePath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\felip\\.nuget\\packages\\fluentvalidation\\9.2.2\\fluentvalidation.9.2.2.nupkg.sha512"
+  ],
+  "logs": []
+}

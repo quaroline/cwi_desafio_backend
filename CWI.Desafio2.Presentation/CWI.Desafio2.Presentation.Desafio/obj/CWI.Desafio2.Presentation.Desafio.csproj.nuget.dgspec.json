@@ -1,0 +1,122 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj": {}
+  },
+  "projects": {
+    "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj",
+        "projectName": "CWI.Desafio2.Domain",
+        "projectPath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj",
+        "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
+        "outputPath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[9.2.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj",
+        "projectName": "CWI.Desafio2.Presentation.Desafio",
+        "projectPath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj",
+        "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
+        "outputPath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj": {
+                "projectPath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

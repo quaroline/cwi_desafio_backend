@@ -1,0 +1,13 @@
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\bin\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.exe
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\bin\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.deps.json
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\bin\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.runtimeconfig.json
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\bin\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.runtimeconfig.dev.json
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\bin\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.dll
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\bin\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.pdb
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.csprojAssemblyReference.cache
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.csproj.CoreCompileInputs.cache
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.AssemblyInfoInputs.cache
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.AssemblyInfo.cs
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.dll
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.pdb
+D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.genruntimeconfig.cache
