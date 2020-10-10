@@ -5,4 +5,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CWI.Desafio2.Domain\CWI.Desafio2.Domain\CWI.Desafio2.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

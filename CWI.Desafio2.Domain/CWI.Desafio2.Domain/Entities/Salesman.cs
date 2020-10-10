@@ -1,11 +1,10 @@
 ﻿using CWI.Desafio2.Domain.Entities.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace CWI.Desafio2.Domain.Entities
 {
     public class Salesman : Entity
     {
-        [Required]
-        [StringLength(100)]
         public string Cpf { get; set; }
 
         public string Name { get; set; }
