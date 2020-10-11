@@ -15,10 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CWI.Desafio2.Presentation.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CWI.Desafio2.Application.FileManager", "CWI.Desafio2.Application\CWI.Desafio2.Application.FileManager\CWI.Desafio2.Application.FileManager\CWI.Desafio2.Application.FileManager.csproj", "{9D5510DD-FB88-4A06-A45C-5CD55F5683BB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{B2EBFBA5-5383-4FA2-9221-06770650B748}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CWI.Desafio2.Infra.Data", "CWI.Desafio2.Infra\CWI.Desafio2.Infra.Data\CWI.Desafio2.Infra.Data.csproj", "{BF88024D-E5BE-4C28-BAE3-1640E2198312}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,10 +33,6 @@ Global
 		{9D5510DD-FB88-4A06-A45C-5CD55F5683BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D5510DD-FB88-4A06-A45C-5CD55F5683BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D5510DD-FB88-4A06-A45C-5CD55F5683BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF88024D-E5BE-4C28-BAE3-1640E2198312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF88024D-E5BE-4C28-BAE3-1640E2198312}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF88024D-E5BE-4C28-BAE3-1640E2198312}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF88024D-E5BE-4C28-BAE3-1640E2198312}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,7 +41,6 @@ Global
 		{4E629A6E-1E9A-4DCD-B578-D5704A06BBA5} = {38E0576D-1A57-4A32-BB84-D2EC0DA94905}
 		{2B4C18E9-CE3A-4D52-BFAC-771410A181E3} = {0668EA47-E45C-4690-976B-67B266F219DE}
 		{9D5510DD-FB88-4A06-A45C-5CD55F5683BB} = {F2A2581B-8F4E-4B48-A4C1-98332C0C38CC}
-		{BF88024D-E5BE-4C28-BAE3-1640E2198312} = {B2EBFBA5-5383-4FA2-9221-06770650B748}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1E0D907E-C3C3-4144-8BE3-5B9503F67952}

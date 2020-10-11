@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CWI.Desafio2.Application\CWI.Desafio2.Application.FileManager\CWI.Desafio2.Application.FileManager\CWI.Desafio2.Application.FileManager.csproj" />
     <ProjectReference Include="..\..\CWI.Desafio2.Domain\CWI.Desafio2.Domain\CWI.Desafio2.Domain.csproj" />
   </ItemGroup>
 

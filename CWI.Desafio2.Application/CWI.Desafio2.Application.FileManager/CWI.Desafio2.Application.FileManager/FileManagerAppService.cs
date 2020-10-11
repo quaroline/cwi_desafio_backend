@@ -2,56 +2,61 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CWI.Desafio2.Application.FileManager
 {
     public class FileManagerAppService
     {
-        private const string HOMEPATH = "%HOMEDRIVE%%HOMEPATH%";
+        private readonly string HOMEPATH = string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "/data");
 
-        public async Task<Tuple<string[], string>> ReadFile()
+        public FileManagerAppService()
+        {
+            if (!Directory.Exists(HOMEPATH))
+                Directory.CreateDirectory(HOMEPATH);
+        }
+
+        public string[][] ReadFiles()
         {
             try
             {
-                var path = string.Concat(HOMEPATH, !HOMEPATH.Last().Equals('/') ? "/" : string.Empty, "data");
-
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-
-                var inPath = string.Concat(path, "/out");
+                var inPath = string.Concat(HOMEPATH, "/in");
 
                 if (!Directory.Exists(inPath))
                     Directory.CreateDirectory(inPath);
 
-                var result = new List<string>();
+                var filenames = Directory.GetFiles(inPath, @"*.csv", SearchOption.TopDirectoryOnly);
 
-                using (var reader = new StreamReader(inPath))
+                var files = new string[filenames.Length][];
+
+                for (var i = 0; i < filenames.Length; i++)
+                {
+                    var file = filenames[i];
+
+                    var content = new List<string>();
+
+                    using var reader = new StreamReader(file);
+
                     while (reader.Peek() >= 0)
-                        result.Add(await reader.ReadLineAsync());
+                        content.Add(reader.ReadLine());
 
-                var @return = new Tuple<string[], string>(result, inPath);
+                    if (content.Any())
+                        files[i] = content.ToArray();
+                }
 
-                return result.ToArray();
+                return files;
             }
-            catch (FileNotFoundException fnfe)
+            catch (Exception)
             {
-                //File not found.
+                return null;
             }
         }
 
-        public async Task WriteFile(string[] data)
+        public void WriteFile(string[] data)
         {
             var sb = new StringBuilder();
 
-            var path = string.Concat(HOMEPATH, !HOMEPATH.Last().Equals('/') ? "/" : string.Empty, "data");
-
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            var outPath = string.Concat(path, "/out");
+            var outPath = string.Concat(HOMEPATH, "/out");
 
             if (!Directory.Exists(outPath))
                 Directory.CreateDirectory(outPath);
@@ -61,7 +66,7 @@ namespace CWI.Desafio2.Application.FileManager
             for (var i = 0; i < data.Length; i++)
                 sb.AppendLine(data[i]);
 
-            await using var sw = new StreamWriter(fullPath);
+            using var sw = new StreamWriter(fullPath);
             sw.WriteLine(sb);
         }
     }

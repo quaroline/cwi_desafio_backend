@@ -2,8 +2,8 @@
 {
     public enum EntityType
     {
-        Salesman, 
-        Customer, 
-        Sale
+        Salesman = 1, 
+        Customer = 2, 
+        Sale = 3
     }
 }

@@ -27,3 +27,6 @@ C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Presentati
 C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.dll
 C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.pdb
 C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.genruntimeconfig.cache
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\obj\Debug\netcoreapp3.1\CWI.Desafio2.Presentation.Desafio.csproj.CoreCompileInputs.cache
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\bin\Debug\netcoreapp3.1\CWI.Desafio2.Application.FileManager.dll
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Presentation\CWI.Desafio2.Presentation.Desafio\bin\Debug\netcoreapp3.1\CWI.Desafio2.Application.FileManager.pdb

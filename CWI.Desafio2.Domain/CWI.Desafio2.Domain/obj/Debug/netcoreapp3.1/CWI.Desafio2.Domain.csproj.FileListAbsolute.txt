@@ -7,3 +7,12 @@ D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Domain\CWI.Desafio2.Domain\b
 D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Domain\CWI.Desafio2.Domain\obj\Debug\netcoreapp3.1\CWI.Desafio2.Domain.csproj.CoreCompileInputs.cache
 D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Domain\CWI.Desafio2.Domain\obj\Debug\netcoreapp3.1\CWI.Desafio2.Domain.dll
 D:\Carol\Git\cwi_desafio1\CWI.Desafio2\CWI.Desafio2.Domain\CWI.Desafio2.Domain\obj\Debug\netcoreapp3.1\CWI.Desafio2.Domain.pdb
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Domain\CWI.Desafio2.Domain\bin\Debug\netcoreapp3.1\CWI.Desafio2.Domain.deps.json
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Domain\CWI.Desafio2.Domain\bin\Debug\netcoreapp3.1\CWI.Desafio2.Domain.dll
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Domain\CWI.Desafio2.Domain\bin\Debug\netcoreapp3.1\CWI.Desafio2.Domain.pdb
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Domain\CWI.Desafio2.Domain\obj\Debug\netcoreapp3.1\CWI.Desafio2.Domain.csprojAssemblyReference.cache
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Domain\CWI.Desafio2.Domain\obj\Debug\netcoreapp3.1\CWI.Desafio2.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Domain\CWI.Desafio2.Domain\obj\Debug\netcoreapp3.1\CWI.Desafio2.Domain.AssemblyInfoInputs.cache
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Domain\CWI.Desafio2.Domain\obj\Debug\netcoreapp3.1\CWI.Desafio2.Domain.AssemblyInfo.cs
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Domain\CWI.Desafio2.Domain\obj\Debug\netcoreapp3.1\CWI.Desafio2.Domain.dll
+C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Domain\CWI.Desafio2.Domain\obj\Debug\netcoreapp3.1\CWI.Desafio2.Domain.pdb

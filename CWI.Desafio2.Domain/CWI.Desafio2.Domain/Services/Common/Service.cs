@@ -1,12 +1,12 @@
 ﻿using CWI.Desafio2.Domain.Entities;
 using CWI.Desafio2.Domain.Entities.Common;
-using CWI.Desafio2.Domain.Interfaces.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CWI.Desafio2.Domain.Services.Common
 {
-    public class Service<T> : IService<T> where T : Entity
+    public class Service<T> where T : Entity
     {
         #region DbSet/Context wannabe
         public static List<Customer> Customers { get; set; }
@@ -16,19 +16,26 @@ namespace CWI.Desafio2.Domain.Services.Common
         public static List<Salesman> Salesmen { get; set; }
         #endregion
 
+        public Service()
+        {
+            Customers = new List<Customer>();
+            Sales = new List<Sale>();
+            Salesmen = new List<Salesman>();
+        }
+
         public void Add(T entity)
         {
             if (typeof(T) == typeof(Customer))
             {
                 Customers.Add(entity as Customer);
             }
-            else if (typeof(T) == typeof(Sale))
-            {
-                Sales.Add(entity as Sale);
-            }
             else if (typeof(T) == typeof(Salesman))
             {
                 Salesmen.Add(entity as Salesman);
+            }
+            else if (typeof(T) == typeof(Sale))
+            {
+                Sales.Add(entity as Sale);
             }
         }
 
@@ -36,18 +43,37 @@ namespace CWI.Desafio2.Domain.Services.Common
         {
             if (typeof(T) == typeof(Customer))
             {
-                Customers.Add(entity as Customer);
-            }
-            else if (typeof(T) == typeof(Sale))
-            {
-                Sales.Add(entity as Sale);
+                return Customers.FirstOrDefault((Func<Customer, bool>)predicate) as T;
             }
             else if (typeof(T) == typeof(Salesman))
             {
-                Salesmen.Add(entity as Salesman);
+                return Salesmen.FirstOrDefault((Func<Salesman, bool>)predicate) as T;
             }
+            else if (typeof(T) == typeof(Sale))
+            {
+                return Sales.FirstOrDefault((Func<Sale, bool>)predicate) as T;
+            }
+
+            return null;
         }
 
-        public IEnumerable<T> FindAll(Func<T, bool> predicate) => _repository.FindAll(predicate);
+        public IEnumerable<T> FindAll(Func<T, bool> predicate)
+        {
+
+            if (typeof(T) == typeof(Customer))
+            {
+                return Customers.Where((Func<Customer, bool>)predicate) as IEnumerable<T>;
+            }
+            else if (typeof(T) == typeof(Salesman))
+            {
+                return Salesmen.Where((Func<Salesman, bool>)predicate) as IEnumerable<T>;
+            }
+            else if (typeof(T) == typeof(Sale))
+            {
+                return Sales.Where((Func<Sale, bool>)predicate) as IEnumerable<T>;
+            }
+
+            return null;
+        }
     }
 }

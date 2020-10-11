@@ -5,6 +5,9 @@
         InvalidCode,
         MissingSeparator,
         EmptyRow,
-        InvalidData
+        InvalidData,
+        InvalidPrimaryKey,
+        InvalidForeignKey,
+        DuplicateData
     }
 }

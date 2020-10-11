@@ -11,6 +11,16 @@
           "lib/netstandard2.0/FluentValidation.dll": {}
         }
       },
+      "CWI.Desafio2.Application.FileManager/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/CWI.Desafio2.Application.FileManager.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CWI.Desafio2.Application.FileManager.dll": {}
+        }
+      },
       "CWI.Desafio2.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -42,6 +52,11 @@
         "lib/netstandard2.0/FluentValidation.xml"
       ]
     },
+    "CWI.Desafio2.Application.FileManager/1.0.0": {
+      "type": "project",
+      "path": "../../CWI.Desafio2.Application/CWI.Desafio2.Application.FileManager/CWI.Desafio2.Application.FileManager/CWI.Desafio2.Application.FileManager.csproj",
+      "msbuildProject": "../../CWI.Desafio2.Application/CWI.Desafio2.Application.FileManager/CWI.Desafio2.Application.FileManager/CWI.Desafio2.Application.FileManager.csproj"
+    },
     "CWI.Desafio2.Domain/1.0.0": {
       "type": "project",
       "path": "../../CWI.Desafio2.Domain/CWI.Desafio2.Domain/CWI.Desafio2.Domain.csproj",
@@ -50,6 +65,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "CWI.Desafio2.Application.FileManager >= 1.0.0",
       "CWI.Desafio2.Domain >= 1.0.0"
     ]
   },
@@ -83,6 +99,9 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
+            "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Application\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager.csproj": {
+              "projectPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Application\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager.csproj"
+            },
             "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj": {
               "projectPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj"
             }

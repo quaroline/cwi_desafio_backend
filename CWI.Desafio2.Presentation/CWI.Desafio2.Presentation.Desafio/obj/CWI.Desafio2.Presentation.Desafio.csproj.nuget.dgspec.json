@@ -4,6 +4,61 @@
     "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj": {}
   },
   "projects": {
+    "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Application\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Application\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager.csproj",
+        "projectName": "CWI.Desafio2.Application.FileManager",
+        "projectPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Application\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager.csproj",
+        "packagesPath": "C:\\Users\\Carolynne\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Application\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Carolynne\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -91,6 +146,9 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
+              "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Application\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager.csproj": {
+                "projectPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Application\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager\\CWI.Desafio2.Application.FileManager.csproj"
+              },
               "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj": {
                 "projectPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj"
               }

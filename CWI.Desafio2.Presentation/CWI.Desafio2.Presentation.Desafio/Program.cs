@@ -1,5 +1,7 @@
-﻿using CWI.Desafio2.Domain.Entities;
+﻿using CWI.Desafio2.Application.FileManager;
+using CWI.Desafio2.Domain.Entities;
 using CWI.Desafio2.Domain.Entities.Enums;
+using CWI.Desafio2.Domain.Services.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,64 +13,60 @@ namespace CWI.Desafio2.Presentation
     {
         private static readonly string SEPARATOR = "ç";
 
-        private static List<Customer> customers;
+        private static readonly FileManagerAppService _fileManagerAppService = new FileManagerAppService();
 
-        private static List<Salesman> salesmen;
-
-        private static List<Sale> sales;
+        private static readonly Service<Customer> _customerService = new Service<Customer>();
+        private static readonly Service<Salesman> _salesmanService = new Service<Salesman>();
+        private static readonly Service<Sale> _saleService = new Service<Sale>();
 
         private static List<ValidationResult> results;
+        private static List<Tuple<ErrorType, string>> errors;
 
         public Program()
         {
-            customers = new List<Customer>();
-            salesmen = new List<Salesman>();
-            sales = new List<Sale>();
             results = new List<ValidationResult>();
+            errors = new List<Tuple<ErrorType, string>>();
         }
 
         static void Main(string[] args)
         {
-            var rows = new string[] {
-                "001ç1234567891234çPedroç50000",
-                "001ç3245678865434çPauloç40000.99",
-                "002ç2345675434544345çJose da SilvaçRural",
-                "002ç2345675433444345çEduardo PereiraçRural",
-                "003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çPedro",
-                "003ç08ç[1-34-10,2-33-1.50,3-40-0.10]çPaulo"
-            };
+            var files = _fileManagerAppService.ReadFiles();
 
-            var errors = new List<Tuple<ErrorType, string>>();
+            foreach (var content in files)
+                formatRows(content);
+        }
 
+        private static void formatRows(string[] rows)
+        {
             foreach (var row in rows)
             {
-                if (!string.IsNullOrEmpty(row))
+                if (string.IsNullOrEmpty(row))
                 {
-                    errors.Add(new Tuple<ErrorType, string>(ErrorType.EmptyRow, string.Empty));
+                    notify(ErrorType.EmptyRow, row);
                     continue;
                 }
 
                 if (!row.Contains(SEPARATOR))
                 {
-                    errors.Add(new Tuple<ErrorType, string>(ErrorType.MissingSeparator, row));
+                    notify(ErrorType.MissingSeparator, row);
                     continue;
                 }
 
                 var item = row.Split(SEPARATOR);
 
-                var entityCode = format1stParameter(item[0]);
+                var entityCode = getEntityCode(item[0]);
 
                 if (!entityCode.HasValue)
                 {
-                    errors.Add(new Tuple<ErrorType, string>(ErrorType.InvalidCode, row));
+                    notify(ErrorType.InvalidCode, row);
                     continue;
                 }
 
-                var secondParameter = format2ndParameter(entityCode.Value, item[1]);
+                var secondParameter = getSecondParameter(entityCode.Value, item[1]);
 
                 if (secondParameter.Item1 == PropertyType.Invalid)
                 {
-                    errors.Add(new Tuple<ErrorType, string>(ErrorType.InvalidData, row));
+                    notify(ErrorType.InvalidData, row);
                     continue;
                 }
 
@@ -77,22 +75,32 @@ namespace CWI.Desafio2.Presentation
 
                 addEntity(entityCode.Value, item);
 
-                /*
-                    Casos não esperados:
-                     - cpf etc errados
-                     - com mais parâmetros que o esperado
-                     - duas linhas na mesma
-                     - salario com , e nao .
-                */
+                if (errors.Any())
+                {
+                    var errorMessages = new string[errors.Count + 1];
+
+                    errorMessages[0] = "-- Errors List --";
+
+                    for (int i = 1; i < errorMessages.Length; i++)
+                    {
+                        errorMessages[i] = $"{i + 1} - {errors[i].Item1}: {errors[i].Item2}";
+                    }
+
+                    _fileManagerAppService.WriteFile(errorMessages);
+                }
+                else
+                {
+
+                }
             }
         }
 
-        private static int? format1stParameter(string param)
+        private static int? getEntityCode(string param)
         {
             int parsedCode;
 
             // Checks if the inserted code is a number and if it is a pre-defined code.
-            if (!int.TryParse(param, out parsedCode) || !Enum.IsDefined(typeof(EntityType), param))
+            if (!int.TryParse(param, out parsedCode) || !Enum.IsDefined(typeof(EntityType), parsedCode))
             {
                 return null;
             }
@@ -100,34 +108,33 @@ namespace CWI.Desafio2.Presentation
             return parsedCode;
         }
 
-        private static Tuple<PropertyType, string> format2ndParameter(int entityCode, string param)
+        private static Tuple<PropertyType, string> getSecondParameter(int entityCode, string param)
         {
-            // CPF
-            if (entityCode == (int)EntityType.Salesman)
+            if (entityCode == (int)EntityType.Salesman) // CPF
             {
-                if (param.Length == 14 && (param.Contains(".") || param.Contains("-")))
+                if (param.Length > 13 && (param.Contains(".") || param.Contains("-"))) // char[14]
                 {
                     param = param.Replace(".", string.Empty).Replace("-", string.Empty);
                 }
 
-                if (param.Length == 11 && param.All(char.IsDigit))
+                if (param.Length == 13 && param.All(char.IsDigit)) // char[11]
                 {
                     return new Tuple<PropertyType, string>(PropertyType.Cpf, param);
                 }
             }
-            else if (entityCode == (int)EntityType.Customer)
+            else if (entityCode == (int)EntityType.Customer) // CNPJ
             {
-                if (param.Length == 18 && (param.Contains(".") || param.Contains("/") || param.Contains("-")))
+                if (param.Length > 16 && (param.Contains(".") || param.Contains("/") || param.Contains("-"))) // char[18]
                 {
                     param = param.Replace(".", string.Empty).Replace("-", string.Empty).Replace("/", string.Empty);
                 }
 
-                if (param.Length == 14 && param.All(char.IsDigit))
+                if (param.Length == 16 && param.All(char.IsDigit)) // char[14]
                 {
                     return new Tuple<PropertyType, string>(PropertyType.Cnpj, param);
                 }
             }
-            else if (entityCode == (int)EntityType.Sale && param.All(char.IsDigit))
+            else if (entityCode == (int)EntityType.Sale && param.All(char.IsDigit)) // SaleId
             {
                 return new Tuple<PropertyType, string>(PropertyType.SaleId, param);
             }
@@ -138,86 +145,84 @@ namespace CWI.Desafio2.Presentation
 
         private static void addEntity(int entityCode, string[] item)
         {
+            var firstParam = item[1].Trim().ToLower();
+
+            var secondParam = item[2].Trim().ToLower();
+
+            var thirdParam = item[3].Trim().ToLower();
+
             if (entityCode == (int)EntityType.Customer)
             {
-                var customer = addCustomer(item);
+                var customer = createCustomer(firstParam, secondParam, thirdParam);
 
                 var validationContext = new ValidationContext(customer);
 
                 if (Validator.TryValidateObject(customer, validationContext, results))
                 {
-
+                    _customerService.Add(customer);
                 }
             }
             else if (entityCode == (int)EntityType.Sale)
             {
-                var sale = addSale(item);
+                var sale = createSale(firstParam, secondParam, thirdParam);
 
                 var validationContext = new ValidationContext(sale);
 
                 if (Validator.TryValidateObject(sale, validationContext, results))
                 {
-
+                    _saleService.Add(sale);
                 }
             }
             else if (entityCode == (int)EntityType.Salesman)
             {
-                var salesman = addSalesman(item);
+                var salesman = createSalesman(firstParam, secondParam, thirdParam);
 
                 var validationContext = new ValidationContext(salesman);
 
                 if (Validator.TryValidateObject(salesman, validationContext, results))
                 {
-
+                    _salesmanService.Add(salesman);
                 }
             }
         }
 
-        private static Customer addCustomer(string[] rawCustomer)
+        private static Customer createCustomer(string name, string cnpj, string businessArea) => new Customer()
         {
-            var cnpj = rawCustomer[1];
+            Name = name,
+            Cnpj = cnpj,
+            BusinessArea = businessArea,
+            EntityCode = EntityType.Customer,
+        };
 
-            var name = rawCustomer[2];
-
-            var businessArea = rawCustomer[3];
-
-            return new Customer()
-            {
-                Name = name,
-                Cnpj = cnpj,
-                BusinessArea = businessArea,
-                EntityCode = EntityType.Customer,
-            };
-        }
-
-        private static Sale addSale(string[] rawSale)
+        private static Sale createSale(string saleId, string items, string salesmanName)
         {
-            var saleId = rawSale[1];
-
-            var items = rawSale[2];
-
-            var salesmanName = rawSale[3];
-
             if (!int.TryParse(saleId, out int castedSaleId))
             {
-                return null;
+                notify(ErrorType.InvalidPrimaryKey, saleId);
+            }
+
+            if (_saleService.Find(s => s.Id == castedSaleId) != null)
+            {
+                notify(ErrorType.DuplicateData, saleId);
+            }
+
+            var salesman = _salesmanService.Find(s => s.Name.ToLower().Trim() == salesmanName);
+
+            if (salesman == null)
+            {
+                notify(ErrorType.InvalidForeignKey, salesmanName);
             }
 
             return new Sale()
             {
                 SaleId = castedSaleId,
+                SalesmanId = salesman.Id,
                 EntityCode = EntityType.Sale
             };
         }
 
-        private static Salesman addSalesman(string[] rawSalesman)
+        private static Salesman createSalesman(string cpf, string name, string salary)
         {
-            var cpf = rawSalesman[1];
-
-            var name = rawSalesman[2];
-
-            var salary = rawSalesman[3];
-
             if (!decimal.TryParse(salary, out decimal castedSalary))
             {
                 return null;//retornar erro
@@ -230,6 +235,11 @@ namespace CWI.Desafio2.Presentation
                 Salary = castedSalary,
                 EntityCode = EntityType.Salesman
             };
+        }
+
+        private static void notify(ErrorType errorType, string data)
+        {
+            errors.Add(new Tuple<ErrorType, string>(errorType, data));
         }
     }
 }
