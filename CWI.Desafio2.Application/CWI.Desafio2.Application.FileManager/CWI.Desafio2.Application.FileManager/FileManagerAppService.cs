@@ -9,7 +9,7 @@ namespace CWI.Desafio2.Application.FileManager
 {
     public class FileManagerAppService
     {
-        private readonly string HOMEPATH = string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "/data");
+        public readonly string HOMEPATH = string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "\\data\\");
 
         public FileManagerAppService()
         {
@@ -17,39 +17,22 @@ namespace CWI.Desafio2.Application.FileManager
                 Directory.CreateDirectory(HOMEPATH);
         }
 
-        public List<FileViewModel> ReadFiles()
+        public FileViewModel ReadFile(string filename)
         {
             try
             {
-                var inPath = string.Concat(HOMEPATH, "/in");
+                var content = new List<string>();
 
-                if (!Directory.Exists(inPath))
-                    Directory.CreateDirectory(inPath);
+                using var reader = new StreamReader(HOMEPATH + "\\in\\" + filename);
 
-                var filenames = Directory.GetFiles(inPath, @"*.csv", SearchOption.TopDirectoryOnly);
+                while (reader.Peek() >= 0)
+                    content.Add(reader.ReadLine());
 
-                var files = new List<FileViewModel>();
-
-                foreach (var file in filenames)
+                return content.Any() ? new FileViewModel()
                 {
-                    var content = new List<string>();
-
-                    using var reader = new StreamReader(file);
-
-                    while (reader.Peek() >= 0)
-                        content.Add(reader.ReadLine());
-
-                    var filename = Path.GetFileName(file);
-
-                    if (content.Any())
-                        files.Add(new FileViewModel()
-                        {
-                            Content = content.ToArray(),
-                            Filename = filename
-                        });
-                }
-
-                return files;
+                    Content = content.ToArray(),
+                    Filename = filename
+                } : null;
             }
             catch (Exception)
             {
@@ -61,12 +44,12 @@ namespace CWI.Desafio2.Application.FileManager
         {
             var sb = new StringBuilder();
 
-            var outPath = string.Concat(HOMEPATH, "/out");
+            var outPath = string.Concat(HOMEPATH, "\\out\\");
 
             if (!Directory.Exists(outPath))
                 Directory.CreateDirectory(outPath);
 
-            var fullPath = $"{outPath}/{DateTime.Now:yyMMddHHmmss}_{filename}";
+            var fullPath = $"{outPath}{DateTime.Now:yyMMddHHmmss}_{filename.Replace(".csv", string.Empty)}.txt";
 
             for (var i = 0; i < data.Length; i++)
                 sb.AppendLine(data[i]);

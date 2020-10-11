@@ -1,10 +1,12 @@
 ﻿using CWI.Desafio2.Application.FileManager;
+using CWI.Desafio2.Application.FileManager.ViewModels;
 using CWI.Desafio2.Domain.Entities;
 using CWI.Desafio2.Domain.Entities.Enums;
 using CWI.Desafio2.Domain.Services.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 
 namespace CWI.Desafio2.Presentation
@@ -21,7 +23,7 @@ namespace CWI.Desafio2.Presentation
         private static Service<Sale> _saleService;
 
         private static List<ValidationResult> results;
-        private static List<Tuple<ErrorType, string>> errors;
+        private static List<Tuple<ErrorType, string>> errors = new List<Tuple<ErrorType, string>>();
         #endregion
 
         #region CTOR
@@ -33,49 +35,44 @@ namespace CWI.Desafio2.Presentation
 
         static void Main(string[] args)
         {
-            var files = _fileManagerAppService.ReadFiles();
-
-            foreach (var file in files)
+            try
             {
-                // For each file, create a new instance to override previous file data.
-                _customerService = new Service<Customer>();
-                _salesmanService = new Service<Salesman>();
-                _saleService = new Service<Sale>();
-
-                errors = new List<Tuple<ErrorType, string>>();
-
-                formatRows(file.Content);
-
-                if (errors.Any())
-                    writeErrors(file.Filename);
-                else
+                var watcher = new FileSystemWatcher(_fileManagerAppService.HOMEPATH + "\\in\\", "*.csv")
                 {
-                    var @return = new string[4];
+                    EnableRaisingEvents = true,
+                    IncludeSubdirectories = false,
+                    NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.CreationTime
+                };
 
-                    var sales = _saleService.FindAll();
+                watcher.Created += new FileSystemEventHandler(OnChanged);
+                watcher.Renamed += new RenamedEventHandler(OnRenamed);
 
-                    var mostExpensiveSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.FinalPrice) >= j.Items.Sum(s => s.FinalPrice) ? i : j);
-
-                    var cheaperSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.FinalPrice) <= j.Items.Sum(s => s.FinalPrice) ? i : j);
-
-                    var bestSalesman = _salesmanService.Find(s => s.Id == mostExpensiveSale.SalesmanId);
-
-                    var worstSalesman = _salesmanService.Find(s => s.Id == cheaperSale.SalesmanId);
-
-                    if (mostExpensiveSale == null || cheaperSale == null || bestSalesman == null || worstSalesman == null)
-                    {
-                        notify(ErrorType.Undefined, ErrorType.Undefined.ToString(), "One or more entities hadn't returned corretly.");
-                    }
-
-                    @return[0] = $"No. Customers: {_customerService.FindAll().Count()}";
-                    @return[1] = $"No. Salesmen: {_salesmanService.FindAll().Count()}";
-                    @return[2] = $"Most expensive sale Id: {mostExpensiveSale.Id} (${mostExpensiveSale.Items.Sum(i => i.FinalPrice)} by {bestSalesman.Name})";
-                    @return[3] = $"Salesman with lowest numbers: {worstSalesman.Name} (${cheaperSale.Items.Sum(i => i.FinalPrice)})";
-
-                    _fileManagerAppService.WriteFile(@return, file.Filename);
-                }
+                Console.ReadKey();
+            }
+            catch (Exception e)
+            {
+                notify(ErrorType.Undefined, string.Empty, e.Message);
+                writeErrors("Program");
             }
         }
+
+        #region Event Handlers
+        public static void OnChanged(object source, FileSystemEventArgs e)
+        {
+            Console.WriteLine("File \"{0}\" has been {1}", e.Name, e.ChangeType);
+
+            var file = _fileManagerAppService.ReadFile(e.Name);
+
+            if (file.Content.Any())
+                formatFile(file);
+            else
+                notify(ErrorType.EmptyRow, file.Filename, "No content.");
+        }
+        public static void OnRenamed(object source, RenamedEventArgs e)
+        {
+            Console.WriteLine("{0} has been renamed to {1}, and it won't be processed again.", e.OldName, e.Name);
+        }
+        #endregion
 
         #region Private Methods
         #region Format Raw Data
@@ -166,6 +163,47 @@ namespace CWI.Desafio2.Presentation
 
             // None
             return new Tuple<PropertyType, string>(PropertyType.Invalid, param);
+        }
+
+        private static void formatFile(FileViewModel file)
+        {
+            // For each file, create a new instance to override previous file data.
+            _customerService = new Service<Customer>();
+            _salesmanService = new Service<Salesman>();
+            _saleService = new Service<Sale>();
+
+            errors = new List<Tuple<ErrorType, string>>();
+
+            formatRows(file.Content);
+
+            if (errors.Any())
+                writeErrors(file.Filename);
+            else
+            {
+                var @return = new string[4];
+
+                var sales = _saleService.FindAll();
+
+                var mostExpensiveSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.FinalPrice) >= j.Items.Sum(s => s.FinalPrice) ? i : j);
+
+                var cheaperSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.FinalPrice) <= j.Items.Sum(s => s.FinalPrice) ? i : j);
+
+                var bestSalesman = _salesmanService.Find(s => s.Id == mostExpensiveSale.SalesmanId);
+
+                var worstSalesman = _salesmanService.Find(s => s.Id == cheaperSale.SalesmanId);
+
+                if (mostExpensiveSale == null || cheaperSale == null || bestSalesman == null || worstSalesman == null)
+                {
+                    notify(ErrorType.Undefined, ErrorType.Undefined.ToString(), "One or more entities hadn't returned corretly.");
+                }
+
+                @return[0] = $"No. Customers: {_customerService.FindAll().Count()}";
+                @return[1] = $"No. Salesmen: {_salesmanService.FindAll().Count()}";
+                @return[2] = $"Most expensive sale Id: {mostExpensiveSale.Id} (${mostExpensiveSale.Items.Sum(i => i.FinalPrice)} by {bestSalesman.Name})";
+                @return[3] = $"Salesman with lowest numbers: {worstSalesman.Name} (${cheaperSale.Items.Sum(i => i.FinalPrice)})";
+
+                _fileManagerAppService.WriteFile(@return, file.Filename);
+            }
         }
         #endregion
 
@@ -331,23 +369,34 @@ namespace CWI.Desafio2.Presentation
         #region Notifications
         private static void notify(ErrorType errorType, string data, string message = null)
         {
-            var errorMessage = data + (!string.IsNullOrEmpty(message) ? ". " + message : string.Empty);
+            var errorMessage = string.Empty;
+
+            if (!string.IsNullOrEmpty(data))
+            {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    errorMessage = $"{data}. {message}";
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(message))
+                {
+                    errorMessage = message;
+                }
+            }
 
             errors.Add(new Tuple<ErrorType, string>(errorType, errorMessage));
         }
 
         private static void writeErrors(string filename)
         {
-            var errorMessages = new string[errors.Count + 1];
+            Console.WriteLine("-- Errors List --");
 
-            errorMessages[0] = "-- Errors List --";
-
-            for (int i = 1; i < errorMessages.Length; i++)
+            for (int i = 0; i < errors.Count; i++)
             {
-                errorMessages[i] = $"{i} - {errors[i].Item1}: {errors[i].Item2}";
+                Console.WriteLine($"{i} - {errors[i].Item1}: {errors[i].Item2}");
             }
-
-            _fileManagerAppService.WriteFile(errorMessages, filename);
         }
         #endregion
         #endregion
