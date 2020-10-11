@@ -9,6 +9,7 @@
         InvalidCode,
         InvalidPrimaryKey,
         InvalidForeignKey,
-        DuplicateData
+        DuplicateData,
+        Undefined
     }
 }

@@ -54,14 +54,23 @@ namespace CWI.Desafio2.Presentation
 
                     var sales = _saleService.FindAll();
 
-                    var mostExpensiveSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.Price) > j.Items.Sum(s => s.Price) ? i : j);
+                    var mostExpensiveSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.FinalPrice) >= j.Items.Sum(s => s.FinalPrice) ? i : j);
 
-                    var lowestSalesmanNumbers = sales.GroupBy(s => s.SalesmanId).Select(group => new { SalesmanId = group.Key, Count = group.Count() }).OrderByDescending(s => s.Count).FirstOrDefault();
+                    var cheaperSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.FinalPrice) <= j.Items.Sum(s => s.FinalPrice) ? i : j);
+
+                    var bestSalesman = _salesmanService.Find(s => s.Id == mostExpensiveSale.SalesmanId);
+
+                    var worstSalesman = _salesmanService.Find(s => s.Id == cheaperSale.SalesmanId);
+
+                    if (mostExpensiveSale == null || cheaperSale == null || bestSalesman == null || worstSalesman == null)
+                    {
+                        notify(ErrorType.Undefined, ErrorType.Undefined.ToString(), "One or more entities hadn't returned corretly.");
+                    }
 
                     @return[0] = $"No. Customers: {_customerService.FindAll().Count()}";
                     @return[1] = $"No. Salesmen: {_salesmanService.FindAll().Count()}";
-                    @return[2] = $"Most expensive sale: {mostExpensiveSale.Id} ($ {mostExpensiveSale.Items.Sum(i => i.Price)})";
-                    @return[3] = $"Salesman with lowest numbers: {lowestSalesmanNumbers.SalesmanId} ({lowestSalesmanNumbers.Count} sales)";
+                    @return[2] = $"Most expensive sale Id: {mostExpensiveSale.Id} (${mostExpensiveSale.Items.Sum(i => i.FinalPrice)} by {bestSalesman.Name})";
+                    @return[3] = $"Salesman with lowest numbers: {worstSalesman.Name} (${cheaperSale.Items.Sum(i => i.FinalPrice)})";
 
                     _fileManagerAppService.WriteFile(@return, file.Filename);
                 }
@@ -161,8 +170,9 @@ namespace CWI.Desafio2.Presentation
         #endregion
 
         #region Create Entities
-        private static Customer createCustomer(string name, string cnpj, string businessArea) => new Customer()
+        private static Customer createCustomer(string cnpj, string name, string businessArea) => new Customer()
         {
+            Id = _customerService.FindAll().Select(s => s.Id).DefaultIfEmpty(0).Max() + 1,
             Name = name,
             Cnpj = cnpj,
             BusinessArea = businessArea,
@@ -197,7 +207,7 @@ namespace CWI.Desafio2.Presentation
                 return null;
             }
 
-            var separatedItems = rawItems.Split(",");
+            var separatedItems = rawItems.Replace("[", string.Empty).Replace("]", string.Empty).Split(",");
 
             var items = new List<Item>();
 
@@ -213,26 +223,37 @@ namespace CWI.Desafio2.Presentation
 
                 if (!int.TryParse(itemId, out int castedItemId))
                 {
-                    notify(ErrorType.InvalidData, quantity, "Couldn't cast salary into integer.");
+                    notify(ErrorType.InvalidData, quantity, "Couldn't cast item ID into integer.");
                 }
 
                 if (!int.TryParse(quantity, out int castedQuantity))
                 {
-                    notify(ErrorType.InvalidData, quantity, "Couldn't cast salary into integer.");
+                    notify(ErrorType.InvalidData, quantity, "Couldn't cast quantity into integer.");
                 }
 
                 if (!decimal.TryParse(price, out decimal castedPrice))
                 {
-                    notify(ErrorType.InvalidData, price, "Couldn't cast salary into decimal.");
+                    notify(ErrorType.InvalidData, price, "Couldn't cast price into decimal.");
                 }
 
-                items.Add(new Item()
+                var itemOriginal = items.FirstOrDefault(i => i.Id == castedItemId);
+
+                // If there's already an item with this ItemId, add new values to previous ones.
+                if (itemOriginal != null)
                 {
-                    Quantity = castedQuantity,
-                    Price = castedPrice,
-                    Id = castedItemId,
-                    EntityCode = EntityType.Item
-                });
+                    itemOriginal.Price += castedPrice;
+                    itemOriginal.Quantity += castedQuantity;
+                }
+                else
+                {
+                    items.Add(new Item()
+                    {
+                        Quantity = castedQuantity,
+                        Price = castedPrice,
+                        Id = castedItemId,
+                        EntityCode = EntityType.Item
+                    });
+                }
             }
 
             return new Sale()
@@ -253,6 +274,7 @@ namespace CWI.Desafio2.Presentation
 
             return new Salesman()
             {
+                Id = _salesmanService.FindAll().Select(s => s.Id).DefaultIfEmpty(0).Max() + 1,
                 Cpf = cpf,
                 Name = name,
                 Salary = castedSalary,
@@ -322,7 +344,7 @@ namespace CWI.Desafio2.Presentation
 
             for (int i = 1; i < errorMessages.Length; i++)
             {
-                errorMessages[i] = $"{i + 1} - {errors[i].Item1}: {errors[i].Item2}";
+                errorMessages[i] = $"{i} - {errors[i].Item1}: {errors[i].Item2}";
             }
 
             _fileManagerAppService.WriteFile(errorMessages, filename);

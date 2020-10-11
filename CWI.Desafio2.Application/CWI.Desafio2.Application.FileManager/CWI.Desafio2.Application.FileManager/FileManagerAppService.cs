@@ -39,11 +39,13 @@ namespace CWI.Desafio2.Application.FileManager
                     while (reader.Peek() >= 0)
                         content.Add(reader.ReadLine());
 
+                    var filename = Path.GetFileName(file);
+
                     if (content.Any())
                         files.Add(new FileViewModel()
                         {
                             Content = content.ToArray(),
-                            Filename = file
+                            Filename = filename
                         });
                 }
 
@@ -64,7 +66,7 @@ namespace CWI.Desafio2.Application.FileManager
             if (!Directory.Exists(outPath))
                 Directory.CreateDirectory(outPath);
 
-            var fullPath = $"{outPath}/{DateTime.Now:yyMMdd_HHmmss}_{filename}.csv";
+            var fullPath = $"{outPath}/{DateTime.Now:yyMMddHHmmss}_{filename}";
 
             for (var i = 0; i < data.Length; i++)
                 sb.AppendLine(data[i]);
