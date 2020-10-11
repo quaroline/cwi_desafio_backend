@@ -1,4 +1,0 @@
-C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Infra\CWI.Desafio2.Infra.Data\bin\Debug\netcoreapp3.1\CWI.Desafio2.Infra.Data.deps.json
-C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Infra\CWI.Desafio2.Infra.Data\bin\Debug\netcoreapp3.1\CWI.Desafio2.Infra.Data.dll
-C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Infra\CWI.Desafio2.Infra.Data\obj\Debug\netcoreapp3.1\CWI.Desafio2.Infra.Data.AssemblyInfoInputs.cache
-C:\Users\Carolynne\source\Workspaces\cwi_desafio_backend\CWI.Desafio2.Infra\CWI.Desafio2.Infra.Data\obj\Debug\netcoreapp3.1\CWI.Desafio2.Infra.Data.AssemblyInfo.cs
