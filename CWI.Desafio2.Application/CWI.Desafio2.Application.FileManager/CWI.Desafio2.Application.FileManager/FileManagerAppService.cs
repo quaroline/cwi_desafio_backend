@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace CWI.Desafio2.Application.FileManager
 {
@@ -23,10 +24,25 @@ namespace CWI.Desafio2.Application.FileManager
             {
                 var content = new List<string>();
 
-                using var reader = new StreamReader(HOMEPATH + "\\in\\" + filename);
+                StreamReader reader;
 
-                while (reader.Peek() >= 0)
-                    content.Add(reader.ReadLine());
+                // Program won't be able to open a copied file sometimes bc of Windows threads, so Program will try open 3 times.
+                for (int i = 0; i <= 3; ++i)
+                {
+                    try
+                    {
+                        reader = new StreamReader(HOMEPATH + "in\\" + filename);
+
+                        while (reader.Peek() >= 0)
+                            content.Add(reader.ReadLine());
+
+                        break;
+                    }
+                    catch (IOException) when (i <= 3)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                }
 
                 return content.Any() ? new FileViewModel()
                 {
@@ -34,7 +50,7 @@ namespace CWI.Desafio2.Application.FileManager
                     Filename = filename
                 } : null;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return null;
             }

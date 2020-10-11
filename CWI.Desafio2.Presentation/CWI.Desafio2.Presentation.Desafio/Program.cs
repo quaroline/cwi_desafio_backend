@@ -2,6 +2,7 @@
 using CWI.Desafio2.Application.FileManager.ViewModels;
 using CWI.Desafio2.Domain.Entities;
 using CWI.Desafio2.Domain.Entities.Enums;
+using CWI.Desafio2.Domain.Entities.Validations;
 using CWI.Desafio2.Domain.Services.Common;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,9 @@ namespace CWI.Desafio2.Presentation
                 watcher.Created += new FileSystemEventHandler(OnChanged);
                 watcher.Renamed += new RenamedEventHandler(OnRenamed);
 
+                Console.WriteLine($" - IN folder:\t\"{_fileManagerAppService.HOMEPATH + "in\\"}\".");
+                Console.WriteLine($" - OUT folder:\t\"{_fileManagerAppService.HOMEPATH + "out\\"}\".\n");
+
                 Console.ReadKey();
             }
             catch (Exception e)
@@ -59,18 +63,26 @@ namespace CWI.Desafio2.Presentation
         #region Event Handlers
         public static void OnChanged(object source, FileSystemEventArgs e)
         {
-            Console.WriteLine("File \"{0}\" has been {1}", e.Name, e.ChangeType);
+            Console.WriteLine("\nFile \"{0}\" has been {1}", e.Name, e.ChangeType.ToString().ToLower());
 
             var file = _fileManagerAppService.ReadFile(e.Name);
 
-            if (file.Content.Any())
+            var message = "File \"" + e.Name + "\" has{0} been processed";
+
+            if (file != null && file.Content.Any())
+            {
                 formatFile(file);
+                Console.WriteLine(message, string.Empty);
+            }
             else
-                notify(ErrorType.EmptyRow, file.Filename, "No content.");
+            {
+                notify(ErrorType.EmptyRow, e.Name, "No content.");
+                Console.WriteLine(message, " NOT");
+            }
         }
         public static void OnRenamed(object source, RenamedEventArgs e)
         {
-            Console.WriteLine("{0} has been renamed to {1}, and it won't be processed again.", e.OldName, e.Name);
+            Console.WriteLine("File \"{0}\" has been renamed to \"{1}\", and it won't be processed again.", e.OldName, e.Name);
         }
         #endregion
 
@@ -83,13 +95,13 @@ namespace CWI.Desafio2.Presentation
                 if (string.IsNullOrEmpty(row))
                 {
                     notify(ErrorType.EmptyRow, row);
-                    continue;
+                    return;
                 }
 
                 if (!row.Contains(SEPARATOR))
                 {
                     notify(ErrorType.MissingSeparator, row);
-                    continue;
+                    return;
                 }
 
                 var item = row.Split(SEPARATOR);
@@ -99,16 +111,10 @@ namespace CWI.Desafio2.Presentation
                 if (!entityCode.HasValue)
                 {
                     notify(ErrorType.InvalidCode, row);
-                    continue;
+                    return;
                 }
 
                 var secondParameter = getSecondParameter(entityCode.Value, item[1]);
-
-                if (secondParameter.Item1 == PropertyType.Invalid)
-                {
-                    notify(ErrorType.InvalidData, row);
-                    continue;
-                }
 
                 item[0] = entityCode.ToString();
                 item[1] = secondParameter.Item2;
@@ -334,33 +340,69 @@ namespace CWI.Desafio2.Presentation
             {
                 var customer = createCustomer(firstParam, secondParam, thirdParam);
 
-                var validationContext = new ValidationContext(customer);
-
-                if (Validator.TryValidateObject(customer, validationContext, results))
+                if (customer != null)
                 {
-                    _customerService.Add(customer);
+                    var validator = new CustomerValidator();
+
+                    var result = validator.Validate(customer);
+
+                    if (result.IsValid)
+                    {
+                        _customerService.Add(customer);
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            notify(ErrorType.InvalidData, error.ErrorMessage);
+                        }
+                    }
                 }
             }
             else if (entityCode == (int)EntityType.Sale)
             {
                 var sale = createSale(firstParam, secondParam, thirdParam);
 
-                var validationContext = new ValidationContext(sale);
-
-                if (Validator.TryValidateObject(sale, validationContext, results))
+                if (sale != null)
                 {
-                    _saleService.Add(sale);
+                    var validator = new SaleValidator();
+
+                    var result = validator.Validate(sale);
+
+                    if (result.IsValid)
+                    {
+                        _saleService.Add(sale);
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            notify(ErrorType.InvalidData, error.ErrorMessage);
+                        }
+                    }
                 }
             }
             else if (entityCode == (int)EntityType.Salesman)
             {
                 var salesman = createSalesman(firstParam, secondParam, thirdParam);
 
-                var validationContext = new ValidationContext(salesman);
-
-                if (Validator.TryValidateObject(salesman, validationContext, results))
+                if (salesman != null)
                 {
-                    _salesmanService.Add(salesman);
+                    var validator = new SalesmanValidator();
+
+                    var result = validator.Validate(salesman);
+
+                    if (result.IsValid)
+                    {
+                        _salesmanService.Add(salesman);
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            notify(ErrorType.InvalidData, null, error.ErrorMessage);
+                        }
+                    }
                 }
             }
         }
@@ -373,9 +415,11 @@ namespace CWI.Desafio2.Presentation
 
             if (!string.IsNullOrEmpty(data))
             {
+                errorMessage = data;
+
                 if (!string.IsNullOrEmpty(message))
                 {
-                    errorMessage = $"{data}. {message}";
+                    errorMessage += $". {message}";
                 }
             }
             else
