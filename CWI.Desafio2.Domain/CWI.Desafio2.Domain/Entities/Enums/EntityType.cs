@@ -4,6 +4,7 @@
     {
         Salesman = 1, 
         Customer = 2, 
-        Sale = 3
+        Sale = 3,
+        Item = 4
     }
 }

@@ -75,5 +75,24 @@ namespace CWI.Desafio2.Domain.Services.Common
 
             return null;
         }
+
+        public IEnumerable<T> FindAll()
+        {
+
+            if (typeof(T) == typeof(Customer))
+            {
+                return Customers as IEnumerable<T>;
+            }
+            else if (typeof(T) == typeof(Salesman))
+            {
+                return Salesmen as IEnumerable<T>;
+            }
+            else if (typeof(T) == typeof(Sale))
+            {
+                return Sales as IEnumerable<T>;
+            }
+
+            return null;
+        }
     }
 }

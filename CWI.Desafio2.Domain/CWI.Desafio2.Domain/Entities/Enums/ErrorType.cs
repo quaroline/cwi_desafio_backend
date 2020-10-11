@@ -2,10 +2,11 @@
 {
     public enum ErrorType
     {
-        InvalidCode,
         MissingSeparator,
+        EmptySaleItems,
         EmptyRow,
         InvalidData,
+        InvalidCode,
         InvalidPrimaryKey,
         InvalidForeignKey,
         DuplicateData

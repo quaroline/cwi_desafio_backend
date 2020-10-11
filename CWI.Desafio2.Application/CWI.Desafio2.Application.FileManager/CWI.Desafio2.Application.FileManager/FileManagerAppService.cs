@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CWI.Desafio2.Application.FileManager.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace CWI.Desafio2.Application.FileManager
                 Directory.CreateDirectory(HOMEPATH);
         }
 
-        public string[][] ReadFiles()
+        public List<FileViewModel> ReadFiles()
         {
             try
             {
@@ -27,12 +28,10 @@ namespace CWI.Desafio2.Application.FileManager
 
                 var filenames = Directory.GetFiles(inPath, @"*.csv", SearchOption.TopDirectoryOnly);
 
-                var files = new string[filenames.Length][];
+                var files = new List<FileViewModel>();
 
-                for (var i = 0; i < filenames.Length; i++)
+                foreach (var file in filenames)
                 {
-                    var file = filenames[i];
-
                     var content = new List<string>();
 
                     using var reader = new StreamReader(file);
@@ -41,7 +40,11 @@ namespace CWI.Desafio2.Application.FileManager
                         content.Add(reader.ReadLine());
 
                     if (content.Any())
-                        files[i] = content.ToArray();
+                        files.Add(new FileViewModel()
+                        {
+                            Content = content.ToArray(),
+                            Filename = file
+                        });
                 }
 
                 return files;
@@ -52,7 +55,7 @@ namespace CWI.Desafio2.Application.FileManager
             }
         }
 
-        public void WriteFile(string[] data)
+        public void WriteFile(string[] data, string filename)
         {
             var sb = new StringBuilder();
 
@@ -61,7 +64,7 @@ namespace CWI.Desafio2.Application.FileManager
             if (!Directory.Exists(outPath))
                 Directory.CreateDirectory(outPath);
 
-            var fullPath = string.Concat(outPath, DateTime.Now.ToString("yyMMdd_HHmmss"), ".csv");
+            var fullPath = $"{outPath}/{DateTime.Now:yyMMdd_HHmmss}_{filename}.csv";
 
             for (var i = 0; i < data.Length; i++)
                 sb.AppendLine(data[i]);

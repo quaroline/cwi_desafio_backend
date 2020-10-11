@@ -13,29 +13,63 @@ namespace CWI.Desafio2.Presentation
     {
         private static readonly string SEPARATOR = "ç";
 
+        #region Dependencies & Validations
         private static readonly FileManagerAppService _fileManagerAppService = new FileManagerAppService();
 
-        private static readonly Service<Customer> _customerService = new Service<Customer>();
-        private static readonly Service<Salesman> _salesmanService = new Service<Salesman>();
-        private static readonly Service<Sale> _saleService = new Service<Sale>();
+        private static Service<Customer> _customerService;
+        private static Service<Salesman> _salesmanService;
+        private static Service<Sale> _saleService;
 
         private static List<ValidationResult> results;
         private static List<Tuple<ErrorType, string>> errors;
+        #endregion
 
+        #region CTOR
         public Program()
         {
             results = new List<ValidationResult>();
-            errors = new List<Tuple<ErrorType, string>>();
         }
+        #endregion
 
         static void Main(string[] args)
         {
             var files = _fileManagerAppService.ReadFiles();
 
-            foreach (var content in files)
-                formatRows(content);
+            foreach (var file in files)
+            {
+                // For each file, create a new instance to override previous file data.
+                _customerService = new Service<Customer>();
+                _salesmanService = new Service<Salesman>();
+                _saleService = new Service<Sale>();
+
+                errors = new List<Tuple<ErrorType, string>>();
+
+                formatRows(file.Content);
+
+                if (errors.Any())
+                    writeErrors(file.Filename);
+                else
+                {
+                    var @return = new string[4];
+
+                    var sales = _saleService.FindAll();
+
+                    var mostExpensiveSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.Price) > j.Items.Sum(s => s.Price) ? i : j);
+
+                    var lowestSalesmanNumbers = sales.GroupBy(s => s.SalesmanId).Select(group => new { SalesmanId = group.Key, Count = group.Count() }).OrderByDescending(s => s.Count).FirstOrDefault();
+
+                    @return[0] = $"No. Customers: {_customerService.FindAll().Count()}";
+                    @return[1] = $"No. Salesmen: {_salesmanService.FindAll().Count()}";
+                    @return[2] = $"Most expensive sale: {mostExpensiveSale.Id} ($ {mostExpensiveSale.Items.Sum(i => i.Price)})";
+                    @return[3] = $"Salesman with lowest numbers: {lowestSalesmanNumbers.SalesmanId} ({lowestSalesmanNumbers.Count} sales)";
+
+                    _fileManagerAppService.WriteFile(@return, file.Filename);
+                }
+            }
         }
 
+        #region Private Methods
+        #region Format Raw Data
         private static void formatRows(string[] rows)
         {
             foreach (var row in rows)
@@ -74,24 +108,6 @@ namespace CWI.Desafio2.Presentation
                 item[1] = secondParameter.Item2;
 
                 addEntity(entityCode.Value, item);
-
-                if (errors.Any())
-                {
-                    var errorMessages = new string[errors.Count + 1];
-
-                    errorMessages[0] = "-- Errors List --";
-
-                    for (int i = 1; i < errorMessages.Length; i++)
-                    {
-                        errorMessages[i] = $"{i + 1} - {errors[i].Item1}: {errors[i].Item2}";
-                    }
-
-                    _fileManagerAppService.WriteFile(errorMessages);
-                }
-                else
-                {
-
-                }
             }
         }
 
@@ -142,7 +158,110 @@ namespace CWI.Desafio2.Presentation
             // None
             return new Tuple<PropertyType, string>(PropertyType.Invalid, param);
         }
+        #endregion
 
+        #region Create Entities
+        private static Customer createCustomer(string name, string cnpj, string businessArea) => new Customer()
+        {
+            Name = name,
+            Cnpj = cnpj,
+            BusinessArea = businessArea,
+            EntityCode = EntityType.Customer,
+        };
+
+        private static Sale createSale(string saleId, string rawItems, string salesmanName)
+        {
+            if (!int.TryParse(saleId, out int castedSaleId))
+            {
+                notify(ErrorType.InvalidPrimaryKey, saleId);
+                return null;
+            }
+
+            if (_saleService.Find(s => s.Id == castedSaleId) != null)
+            {
+                notify(ErrorType.DuplicateData, saleId);
+                return null;
+            }
+
+            var salesman = _salesmanService.Find(s => s.Name.ToLower().Trim() == salesmanName);
+
+            if (salesman == null)
+            {
+                notify(ErrorType.InvalidForeignKey, salesmanName, "No salesman registered for this name.");
+                return null;
+            }
+
+            if (!rawItems.Any())
+            {
+                notify(ErrorType.EmptySaleItems, saleId);
+                return null;
+            }
+
+            var separatedItems = rawItems.Split(",");
+
+            var items = new List<Item>();
+
+            foreach (var item in separatedItems)
+            {
+                var properties = item.Split("-");
+
+                var itemId = properties[0];
+
+                var quantity = properties[1];
+
+                var price = properties[2];
+
+                if (!int.TryParse(itemId, out int castedItemId))
+                {
+                    notify(ErrorType.InvalidData, quantity, "Couldn't cast salary into integer.");
+                }
+
+                if (!int.TryParse(quantity, out int castedQuantity))
+                {
+                    notify(ErrorType.InvalidData, quantity, "Couldn't cast salary into integer.");
+                }
+
+                if (!decimal.TryParse(price, out decimal castedPrice))
+                {
+                    notify(ErrorType.InvalidData, price, "Couldn't cast salary into decimal.");
+                }
+
+                items.Add(new Item()
+                {
+                    Quantity = castedQuantity,
+                    Price = castedPrice,
+                    Id = castedItemId,
+                    EntityCode = EntityType.Item
+                });
+            }
+
+            return new Sale()
+            {
+                Id = castedSaleId,
+                SalesmanId = salesman.Id,
+                EntityCode = EntityType.Sale,
+                Items = items
+            };
+        }
+
+        private static Salesman createSalesman(string cpf, string name, string salary)
+        {
+            if (!decimal.TryParse(salary, out decimal castedSalary))
+            {
+                notify(ErrorType.InvalidData, salary, "Couldn't cast salary into decimal.");
+            }
+
+            return new Salesman()
+            {
+                Cpf = cpf,
+                Name = name,
+                Salary = castedSalary,
+                EntityCode = EntityType.Salesman
+            };
+        }
+        #endregion
+
+        #region Service
         private static void addEntity(int entityCode, string[] item)
         {
             var firstParam = item[1].Trim().ToLower();
@@ -185,61 +304,30 @@ namespace CWI.Desafio2.Presentation
                 }
             }
         }
+        #endregion
 
-        private static Customer createCustomer(string name, string cnpj, string businessArea) => new Customer()
+        #region Notifications
+        private static void notify(ErrorType errorType, string data, string message = null)
         {
-            Name = name,
-            Cnpj = cnpj,
-            BusinessArea = businessArea,
-            EntityCode = EntityType.Customer,
-        };
+            var errorMessage = data + (!string.IsNullOrEmpty(message) ? ". " + message : string.Empty);
 
-        private static Sale createSale(string saleId, string items, string salesmanName)
-        {
-            if (!int.TryParse(saleId, out int castedSaleId))
-            {
-                notify(ErrorType.InvalidPrimaryKey, saleId);
-            }
-
-            if (_saleService.Find(s => s.Id == castedSaleId) != null)
-            {
-                notify(ErrorType.DuplicateData, saleId);
-            }
-
-            var salesman = _salesmanService.Find(s => s.Name.ToLower().Trim() == salesmanName);
-
-            if (salesman == null)
-            {
-                notify(ErrorType.InvalidForeignKey, salesmanName);
-            }
-
-            return new Sale()
-            {
-                SaleId = castedSaleId,
-                SalesmanId = salesman.Id,
-                EntityCode = EntityType.Sale
-            };
+            errors.Add(new Tuple<ErrorType, string>(errorType, errorMessage));
         }
 
-        private static Salesman createSalesman(string cpf, string name, string salary)
+        private static void writeErrors(string filename)
         {
-            if (!decimal.TryParse(salary, out decimal castedSalary))
+            var errorMessages = new string[errors.Count + 1];
+
+            errorMessages[0] = "-- Errors List --";
+
+            for (int i = 1; i < errorMessages.Length; i++)
             {
-                return null;//retornar erro
+                errorMessages[i] = $"{i + 1} - {errors[i].Item1}: {errors[i].Item2}";
             }
 
-            return new Salesman()
-            {
-                Cpf = cpf,
-                Name = name,
-                Salary = castedSalary,
-                EntityCode = EntityType.Salesman
-            };
+            _fileManagerAppService.WriteFile(errorMessages, filename);
         }
-
-        private static void notify(ErrorType errorType, string data)
-        {
-            errors.Add(new Tuple<ErrorType, string>(errorType, data));
-        }
+        #endregion
+        #endregion
     }
 }
