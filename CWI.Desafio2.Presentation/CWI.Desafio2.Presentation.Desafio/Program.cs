@@ -17,11 +17,14 @@ namespace CWI.Desafio2.Presentation
 
         private static List<Sale> sales;
 
+        private static List<ValidationResult> results;
+
         public Program()
         {
             customers = new List<Customer>();
             salesmen = new List<Salesman>();
             sales = new List<Sale>();
+            results = new List<ValidationResult>();
         }
 
         static void Main(string[] args)
@@ -36,8 +39,6 @@ namespace CWI.Desafio2.Presentation
             };
 
             var errors = new List<Tuple<ErrorType, string>>();
-
-            var results = new List<ValidationResult>();
 
             foreach (var row in rows)
             {
@@ -219,7 +220,7 @@ namespace CWI.Desafio2.Presentation
 
             if (!decimal.TryParse(salary, out decimal castedSalary))
             {
-                return null;
+                return null;//retornar erro
             }
 
             return new Salesman()

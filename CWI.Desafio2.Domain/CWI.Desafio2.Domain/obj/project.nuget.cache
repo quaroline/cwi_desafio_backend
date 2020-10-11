@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "BTxrMshUusTtdvrMsYxLGndO3grTmpNyKdKy/N/33EtQhmrXD5w7EwobAx6vJ6pvnz+wGjDJmzuZCV5yyyaG1w==",
+  "dgSpecHash": "lFPNB2LY22kJdHN2/r03582jrmhDMU1WrzXDIY5eMyysrI3R//DhHHr0o8JJg58r1X6L/BdXCXta7Gef9wyLlg==",
   "success": true,
-  "projectFilePath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj",
+  "projectFilePath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\felip\\.nuget\\packages\\fluentvalidation\\9.2.2\\fluentvalidation.9.2.2.nupkg.sha512"
+    "C:\\Users\\Carolynne\\.nuget\\packages\\fluentvalidation\\9.2.2\\fluentvalidation.9.2.2.nupkg.sha512"
   ],
   "logs": []
 }

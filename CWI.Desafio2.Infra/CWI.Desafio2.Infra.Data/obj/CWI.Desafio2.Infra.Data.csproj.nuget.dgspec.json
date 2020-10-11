@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj": {}
+    "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Infra\\CWI.Desafio2.Infra.Data\\CWI.Desafio2.Infra.Data.csproj": {}
   },
   "projects": {
     "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj": {
@@ -65,14 +65,14 @@
         }
       }
     },
-    "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj": {
+    "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Infra\\CWI.Desafio2.Infra.Data\\CWI.Desafio2.Infra.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj",
-        "projectName": "CWI.Desafio2.Presentation.Desafio",
-        "projectPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj",
+        "projectUniqueName": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Infra\\CWI.Desafio2.Infra.Data\\CWI.Desafio2.Infra.Data.csproj",
+        "projectName": "CWI.Desafio2.Infra.Data",
+        "projectPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Infra\\CWI.Desafio2.Infra.Data\\CWI.Desafio2.Infra.Data.csproj",
         "packagesPath": "C:\\Users\\Carolynne\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\obj\\",
+        "outputPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Infra\\CWI.Desafio2.Infra.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -105,6 +105,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[3.1.8, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

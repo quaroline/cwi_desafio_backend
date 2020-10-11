@@ -54,19 +54,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\felip\\.nuget\\packages\\": {}
+    "C:\\Users\\Carolynne\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj",
+      "projectUniqueName": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj",
       "projectName": "CWI.Desafio2.Presentation.Desafio",
-      "projectPath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj",
-      "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-      "outputPath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\obj\\",
+      "projectPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\CWI.Desafio2.Presentation.Desafio.csproj",
+      "packagesPath": "C:\\Users\\Carolynne\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Presentation\\CWI.Desafio2.Presentation.Desafio\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\felip\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Carolynne\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -79,8 +83,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj": {
-              "projectPath": "D:\\Carol\\Git\\cwi_desafio1\\CWI.Desafio2\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj"
+            "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj": {
+              "projectPath": "C:\\Users\\Carolynne\\source\\Workspaces\\cwi_desafio_backend\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain\\CWI.Desafio2.Domain.csproj"
             }
           }
         }
