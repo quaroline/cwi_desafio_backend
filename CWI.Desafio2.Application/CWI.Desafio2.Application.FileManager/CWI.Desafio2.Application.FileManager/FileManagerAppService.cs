@@ -26,7 +26,7 @@ namespace CWI.Desafio2.Application.FileManager
 
                 StreamReader reader;
 
-                // Program won't be able to open a copied file sometimes bc of Windows threads, so Program will try open 3 times.
+                // Program won't be able to open a copied file sometimes bc of Windows threads, so it'll try open the file 3 times.
                 for (int i = 0; i <= 3; ++i)
                 {
                     try
@@ -50,7 +50,7 @@ namespace CWI.Desafio2.Application.FileManager
                     Filename = filename
                 } : null;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

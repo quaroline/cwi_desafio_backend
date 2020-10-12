@@ -56,7 +56,7 @@ namespace CWI.Desafio2.Presentation
             catch (Exception e)
             {
                 notify(ErrorType.Undefined, string.Empty, e.Message);
-                writeErrors("Program");
+                writeErrors();
             }
         }
 
@@ -72,7 +72,9 @@ namespace CWI.Desafio2.Presentation
             if (file != null && file.Content.Any())
             {
                 formatFile(file);
-                Console.WriteLine(message, string.Empty);
+
+                if (!errors.Any())
+                    Console.WriteLine(message, string.Empty);
             }
             else
             {
@@ -183,7 +185,7 @@ namespace CWI.Desafio2.Presentation
             formatRows(file.Content);
 
             if (errors.Any())
-                writeErrors(file.Filename);
+                writeErrors();
             else
             {
                 var @return = new string[4];
@@ -433,13 +435,13 @@ namespace CWI.Desafio2.Presentation
             errors.Add(new Tuple<ErrorType, string>(errorType, errorMessage));
         }
 
-        private static void writeErrors(string filename)
+        private static void writeErrors()
         {
-            Console.WriteLine("-- Errors List --");
+            Console.WriteLine("\n-- Errors List --\n");
 
             for (int i = 0; i < errors.Count; i++)
             {
-                Console.WriteLine($"{i} - {errors[i].Item1}: {errors[i].Item2}");
+                Console.WriteLine($"{i + 1} - {errors[i].Item1}: {errors[i].Item2}");
             }
         }
         #endregion

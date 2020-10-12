@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System.Text.RegularExpressions;
 
 namespace CWI.Desafio2.Domain.Entities.Validations
 {
@@ -11,6 +12,8 @@ namespace CWI.Desafio2.Domain.Entities.Validations
         public const string LENGTH_OUTSIDE_RANGE = "\"{PropertyName}\" must be between {MinLength} and {MaxLength} characters long.";
 
         public const string LENGTH = "\"{PropertyName}\" must be {TotalLength} characters long.";
+
+        public const string ONLY_NUMBERS = "\"{PropertyName}\" must contain only numbers.";
     }
 
     public class CustomerValidator : AbstractValidator<Customer>
@@ -19,7 +22,7 @@ namespace CWI.Desafio2.Domain.Entities.Validations
         {
             // CPF
             RuleFor(e => e.Cnpj).NotNull().NotEmpty().WithMessage(Message.EMPTY);
-            RuleFor(e => e.Cnpj).Length(16).WithMessage(Message.LENGTH); // 14
+            RuleFor(x => x.Cnpj).Must(Utils.BeANumber).WithMessage(Message.ONLY_NUMBERS);
 
             // Name
             RuleFor(e => e.Name).NotNull().NotEmpty().WithMessage(Message.EMPTY);
@@ -48,7 +51,7 @@ namespace CWI.Desafio2.Domain.Entities.Validations
         {
             // CPF
             RuleFor(e => e.Cpf).NotNull().NotEmpty().WithMessage(Message.EMPTY);
-            RuleFor(e => e.Cpf).Length(13).WithMessage(Message.LENGTH); // 11
+            RuleFor(x => x.Cpf).Must(Utils.BeANumber).WithMessage(Message.ONLY_NUMBERS);
 
             // Salary
             RuleFor(e => e.Salary).GreaterThan(0).LessThan(int.MaxValue).WithMessage(Message.INVALID);
@@ -56,5 +59,10 @@ namespace CWI.Desafio2.Domain.Entities.Validations
             // EntityCode
             RuleFor(e => (e as Salesman).EntityCode).NotEmpty().WithMessage(Message.EMPTY);
         }
+    }
+   
+    public static class Utils
+    {
+        public static bool BeANumber(string data) => new Regex("^\\d+$").IsMatch(data);
     }
 }
