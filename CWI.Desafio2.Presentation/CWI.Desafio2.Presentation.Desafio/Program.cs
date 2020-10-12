@@ -194,21 +194,32 @@ namespace CWI.Desafio2.Presentation
 
                 var mostExpensiveSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.FinalPrice) >= j.Items.Sum(s => s.FinalPrice) ? i : j);
 
-                var cheaperSale = sales.Aggregate((i, j) => i.Items.Sum(s => s.FinalPrice) <= j.Items.Sum(s => s.FinalPrice) ? i : j);
+                var salemanWithMostExpensiveSale = _salesmanService.Find(s => s.Id == mostExpensiveSale.SalesmanId);
 
-                var bestSalesman = _salesmanService.Find(s => s.Id == mostExpensiveSale.SalesmanId);
+                var salesmen = _salesmanService.FindAll();
 
-                var worstSalesman = _salesmanService.Find(s => s.Id == cheaperSale.SalesmanId);
+                var totalSales = new List<Tuple<string, decimal>>();
 
-                if (mostExpensiveSale == null || cheaperSale == null || bestSalesman == null || worstSalesman == null)
+                foreach (var salesman in salesmen)
+                {
+                    var salesBySalesman = _saleService.FindAll(s => s.SalesmanId == salesman.Id);
+
+                    var totalSalesBySalesman = salesBySalesman.SelectMany(s => s.Items).Sum(i => i.FinalPrice);
+
+                    totalSales.Add(new Tuple<string, decimal>(salesman.Name, totalSalesBySalesman));
+                }
+
+                var worstSalesman = totalSales.FirstOrDefault(s => s.Item2 == totalSales.Min(s2 => s2.Item2));
+
+                if (mostExpensiveSale == null || salemanWithMostExpensiveSale == null || worstSalesman == null)
                 {
                     notify(ErrorType.Undefined, ErrorType.Undefined.ToString(), "One or more entities hadn't returned corretly.");
                 }
 
                 @return[0] = $"No. Customers: {_customerService.FindAll().Count()}";
                 @return[1] = $"No. Salesmen: {_salesmanService.FindAll().Count()}";
-                @return[2] = $"Most expensive sale Id: {mostExpensiveSale.Id} (${mostExpensiveSale.Items.Sum(i => i.FinalPrice)} by {bestSalesman.Name})";
-                @return[3] = $"Salesman with lowest numbers: {worstSalesman.Name} (${cheaperSale.Items.Sum(i => i.FinalPrice)})";
+                @return[2] = $"Most expensive sale Id: {mostExpensiveSale.Id} (${mostExpensiveSale.Items.Sum(i => i.FinalPrice)} by {salemanWithMostExpensiveSale.Name})";
+                @return[3] = $"Salesman with lowest numbers: {worstSalesman.Item1} (${worstSalesman.Item2})";
 
                 _fileManagerAppService.WriteFile(@return, file.Filename);
             }
